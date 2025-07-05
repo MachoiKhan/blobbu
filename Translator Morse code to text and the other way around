@@ -1,0 +1,126 @@
+#translasi sandi morse ke text
+alfabet = ['A','B','C','D','E','F','G','H','I','J',
+         'K','L','M','N','O','P','Q','R','S','T',
+         'U','V','W','X','Y','Z',
+         '0','1','2','3','4','5','6','7','8','9',
+         ' ']
+
+morse = ['.-','-...','-.-.','-..','.','..-.','--.','....','..','.---',
+         '-.-','.-..','--','-.','---','.--.','--.-','.-.','...','-',
+         '..-','...-','.--','-..-','-.--','--..',
+         '-----','.----','..---','...--','....-','.....','-....','--...','---..','----.',
+         '/']  
+
+#TEXT TO MORSE
+def text_to_morse(text):
+    i = 0
+    result = ''
+    while True:
+        if text[i:i+1] == '':
+            break
+
+        ch = text[i]
+        ch_upper = ch
+
+        if ch >= 'a' and ch <= 'z':
+            ch_upper = chr(ord(ch) - 32)
+
+        j = 0
+        matched = False
+        while True:
+            if alfabet[j:j+1] == []:
+                break
+
+            if ch_upper == alfabet[j]:
+                result = result + morse[j] + ' '
+                matched = True
+                break
+            else:
+                j = j + 1
+
+        if matched == False:
+            result = result + '? ' 
+
+        i = i + 1
+
+    return result
+
+
+# MORSE TO TEXT
+def morse_to_text(code):
+    i = 0
+    result = ''
+    temp = ''
+    char = ''
+    while True:
+        c = code[i:i+1]
+        if c == '':
+            break
+
+        if c != ' ':
+            temp = temp + c
+        else:
+            # match temp to morse
+            j = 0
+            matched = False
+            while True:
+                if morse[j:j+1] == []:
+                    break
+
+                if temp == morse[j]:
+                    result = result + alfabet[j]
+                    matched = True
+                    break
+                else:
+                    j = j + 1
+
+            if matched == False:
+                result = result + '?'
+
+            temp = ''  
+
+        i = i + 1
+
+    if temp != '':
+        j = 0
+        matched = False
+        while True:
+            if morse[j:j+1] == []:
+                break
+
+            if temp == morse[j]:
+                result = result + alfabet[j]
+                matched = True
+                break
+            else:
+                j = j + 1
+
+        if matched == False:
+            result = result + '?'
+
+    return result
+
+
+# MAIN MENU 
+def main():
+    print("=== Morse Code Translator ===")
+    while True:
+        print("\n1. Text to Morse")
+        print("2. Morse to Text")
+        print("3. Exit")
+
+        choice = input("Choose: ")
+
+        if choice == '1':
+            text = input("Enter text: ")
+            print("Morse Code: " + text_to_morse(text))
+        elif choice == '2':
+            code = input("Enter Morse (if you want toseparate letters with space, use '/' for space): ")
+            print("Text: " + morse_to_text(code))
+        elif choice == '3':
+            print("Goodbye, Sir.")
+            break
+        else:
+            print("Invalid input.")
+
+main()
