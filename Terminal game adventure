@@ -1,0 +1,91 @@
+import random
+
+def intro():
+    print("\n Welcome to MetroCity 2088 ")
+    print("You're a cobalt mine worker who got fired for questioning authority.")
+    print("Now you're trying to wake people up from the corporate lies.")
+    print("But the system won't let you go that easily...\n")
+
+def choose_path():
+    print("You ask yourself:")
+    print("1. Should I approach my old friends and warn them?")
+    print("2. Or should I find proof of the corruption first?")
+    choice = input("I think I gotta: ")
+    while choice not in ["1", "2"]:
+        choice = input("That's not an option. Let me think again: ")
+    return choice
+
+def enemy():
+    print("\n A Security Robot detects your presence! ")
+    player_health = 100
+    robot_health = 100
+
+    while player_health > 0 and robot_health > 0:
+        print(f"\nYour HP: {player_health} | Robot HP: {robot_health}")
+        print("What will you do?")
+        print("1. Attack with your pickaxe")
+        print("2. Pretend you're a new trainee employee")
+        print("3. Heal using an injector")
+
+        move = input("You choose: ")
+
+        robot_move = random.choice(["Attack", "not convinced", "reboot"])
+
+        if move == "1":
+            if robot_move == "Attack":
+                print(" The robot blocks and counters your attack!")
+            else:
+                damage = random.randint(10, 20)
+                robot_health -= damage
+                print(f" You strike the robot for {damage} damage.")
+        elif move == "2":
+            if robot_move == "not convinced":
+                print(" The robot scans you and is not convinced by your bluff!")
+            else:
+                print(" The robot reboots for a moment, buying you time.")
+        elif move == "3":
+            heal = random.randint(10, 25)
+            player_health = min(100, player_health + heal)
+            print(f" You heal yourself for {heal} HP.")
+        else:
+            print(" Invalid move. You hesitate...")
+
+        if robot_move == "Attack" and move != "2":
+            damage = random.randint(8, 15)
+            player_health -= damage
+            print(f" The robot attacks you for {damage} damage!")
+
+    if player_health <= 0:
+        print("\n You fall. The corporate system wins again... for now.")
+    else:
+        print("\n Robot defeated!")
+        print("You escape to the next station in search of the proof.\n")
+        final_level()
+
+def final_level():
+    print(" You find the proof hidden in a vault beneath the metro.")
+    print("There’s a note that says:")
+    print("'The vault key is... the man who sold the world.'")
+
+    answer = input("Your guess: ").strip().lower()
+
+    if "metal gear" in answer or "metal gear v" in answer or "the man who sold the world" in answer:
+        print("\n Access granted.")
+        print(" You acquired the proof. You’re one step closer to awakening the people.")
+        print("The truth will be known. MetroCity will rise.")
+    else:
+        print("\n Access denied. Vault contents being destroyed...")
+        print(" Your efforts were in vain. But the dream lives on.")
+
+def main():
+     intro()
+     path = choose_path()
+     if path == "1":
+        print("\nYou decide to reach out to your friends first...")
+        enemy()
+     else:
+        print("\nYou choose to find proof before anything else...")
+        enemy()
+
+if __name__ == "__main__":
+    main()
